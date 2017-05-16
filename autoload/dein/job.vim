@@ -155,8 +155,12 @@ else
     while timeout is v:null || start_time + timeout > reltimefloat(reltime())
       let status = self.status()
       if status ==# 'run'
-        let stdout = ch_read(self._job)
-        let stderr = ch_read(self._job, {'part': 'err'})
+        try
+          let stdout = ch_read(self._job)
+          let stderr = ch_read(self._job, {'part': 'err'})
+        catch /E906/
+          echomsg 'catched'
+        endtry
         if has_key(self, 'on_stdout') && !empty(stdout)
           call s:_job_callback('stdout', self, self._job, stdout)
         endif
