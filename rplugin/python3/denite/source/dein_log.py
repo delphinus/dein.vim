@@ -34,6 +34,7 @@ class Source(Base):
         else:
             log_func = 'dein#install#_get_log'
         logs = self.vim.call(log_func)
+        print('logs: ' + str(len(logs)))
 
         def make_candidates(row):
             return {
